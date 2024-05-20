@@ -1,18 +1,24 @@
 function openModal(popup) {
     popup.classList.add('popup_is-opened');
-    popup.addEventListener('click', closeMethod);
-    document.addEventListener('keydown', closeMethod);
+    popup.addEventListener('click', closeByClick);
+    document.addEventListener('keydown', closeByEscape);
 }
 
 function closeModal(popup) {
     popup.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', closeMethod);
+    document.removeEventListener('keydown', closeByEscape);
 }
 
-// Обработчик закрытия модального окна
-function closeMethod(evt){
-    const openedPopup = document.querySelector('.popup_is-opened');
-    if(evt.target.closest('.popup__close') || evt.target === openedPopup || evt.key === 'Escape'){
+// Обработчики закрытия модального окна
+function closeByClick(evt){
+    if(evt.target.closest('.popup__close') || evt.target === evt.currentTarget){
+        closeModal(evt.currentTarget);
+    }
+}
+
+function closeByEscape(evt){
+    if(evt.key === 'Escape'){
+        const openedPopup = document.querySelector('.popup_is-opened');
         closeModal(openedPopup);
     }
 }
