@@ -18,6 +18,7 @@ const profileDescription = document.querySelector('.profile__description');
 const popupTypeImage = document.querySelector('.popup_type_image');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupCaption = popupTypeImage.querySelector('.popup__caption');
+const popupCloseButtons = document.querySelectorAll('.popup__close');
 
 // Добавление карточки
 function handleAddCardFormSubmit(evt){
@@ -67,6 +68,13 @@ popupEdit.addEventListener('submit', handleProfileEditFormSubmit);
 // Плавное открытие и закрытие попапов
 document.querySelectorAll('.popup').forEach( item => {
     item.classList.add('popup_is-animated');
+});
+
+popupCloseButtons.forEach(item => {
+    item.addEventListener('click', () => {
+        const popup = item.closest('.popup');
+        closeModal(popup);
+    })
 });
 
 // Отображение карточек при открытии страницы.
