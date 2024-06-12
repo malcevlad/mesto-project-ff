@@ -36,12 +36,14 @@ function createCard(cardTemplate, card, userId, cardEvents) {
                 likeCounts.textContent = res.likes.length;
                 likeButton.classList.toggle('card__like-button_is-active');
                 })
+            .catch(err => console.log(err))
             } else {
                 cardEvents.setLike(card._id)
                 .then ((res) => {
                     likeCounts.textContent = res.likes.length;
                     likeButton.classList.toggle('card__like-button_is-active');
                 })
+                .catch(err => console.log(err))
             }
     });
     

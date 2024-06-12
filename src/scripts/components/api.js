@@ -21,10 +21,7 @@ const getInitialCards = () => {
         headers: config.headers
     })
         .then(res => getResponse(res))
-        .catch(err => {
-            console.log(err)
-        })
-    }
+}
 
 const getUser = () => {
     
@@ -33,9 +30,6 @@ const getUser = () => {
         headers: config.headers
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const editProfile = ({userName, userAbout}) => {
@@ -48,9 +42,6 @@ const editProfile = ({userName, userAbout}) => {
   })
 })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const addNewCard = ({name, link}) => {
@@ -63,9 +54,6 @@ const addNewCard = ({name, link}) => {
         })
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const deleteCardApi = (cardId) => {
@@ -74,9 +62,6 @@ const deleteCardApi = (cardId) => {
         headers: config.headers,
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const setLike = (cardId) => {
@@ -85,9 +70,6 @@ const setLike = (cardId) => {
         headers: config.headers,
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const deleteLike = (cardId) => {
@@ -96,9 +78,6 @@ const deleteLike = (cardId) => {
         headers: config.headers,
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 const changeAvatar = ({avatarLink}) => {
@@ -110,9 +89,6 @@ const changeAvatar = ({avatarLink}) => {
         })
     })
     .then(res => getResponse(res))
-    .catch(err => {
-        console.log(err)
-    })
 }
 
 export {

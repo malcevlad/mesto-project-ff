@@ -96,6 +96,7 @@ function handleAddCardFormSubmit(evt){
             placesList.prepend(createCard(cardTemplate, newCard, userId, cardEvents));
             closeModal(popupNewCard);
         })
+        .catch(err => console.log(err))
         .finally(() => loader(false, addCardButtonSubmit))
 }
     
@@ -105,11 +106,12 @@ function handleProfileEditFormSubmit(evt){
     evt.preventDefault(); 
     loader(true, editProfileButtonSubmit)
     editProfile({userName: nameInput.value, userAbout: jobInput.value})
-        .then(() => {
-            profileTitle.textContent = nameInput.value;
-            profileDescription.textContent = jobInput.value;
+        .then((res) => {
+            profileTitle.textContent = res.name;
+            profileDescription.textContent = res.about;
             closeModal(popupEdit);
         })
+        .catch(err => console.log(err))
         .finally(() => loader(false, editProfileButtonSubmit))
 }
 
@@ -118,10 +120,11 @@ function handleСhangeAvatarFormSubmit(evt){
     evt.preventDefault();
     loader(true, newAvatarButtonSubmit);
     changeAvatar({avatarLink: avatarUrl.value})
-        .then(() => {
-            profileImage.style = `background-image:url(${avatarUrl.value})`
+        .then((res) => {
+            profileImage.style = `background-image:url(${res.avatar})`
             closeModal(popupNewAvatar);
         })
+        .catch(err => console.log(err))
         .finally(() => loader(false, newAvatarButtonSubmit))
 }
 
@@ -130,10 +133,12 @@ function handleСhangeAvatarFormSubmit(evt){
 function deleteCard(card, cardId) {
     loaderDeleteCard(true, deleteCardButton)
     deleteCardApi(cardId)
-    .then(() => {
+    .then((res) => {
         card.remove()
+        console.log(res.message);
         closeModal(popupDeleteCard)
     })
+    .catch(err => console.log(err))
     .finally(() => loaderDeleteCard(false, deleteCardButton))
 }
 
@@ -149,7 +154,7 @@ function openPopupImage(card) {
 function openPopupDeleteCard(card, cardId) {
     openModal(popupDeleteCard);
 
-    popupDeleteCard.addEventListener('click', () => {
+    deleteCardButton.addEventListener('click', () => {
         deleteCard(card, cardId)
     })
 
@@ -159,9 +164,8 @@ function openPopupDeleteCard(card, cardId) {
 // Открыть форму добавления карточки
 addCardButton.addEventListener('click', () => {
     openModal(popupNewCard);
-    cardName.value = '';
-    cardURL.value = '';
-    clearValidation(formNewPlace, validationConfig); // Функция очистки валидации
+    formNewPlace.reset();
+    clearValidation(formNewPlace, validationConfig);
 });
 
 // Отправить форму добавления карточки
@@ -172,7 +176,7 @@ editProfileButton.addEventListener('click', () => {
     openModal(popupEdit);
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
-    clearValidation(formEditProfile, validationConfig); // Функция очистки валидации
+    clearValidation(formEditProfile, validationConfig);
 });
 
 // Отправить форму редактирования профиля
@@ -181,8 +185,8 @@ popupEdit.addEventListener('submit', handleProfileEditFormSubmit);
 // Открыть форму обновления аватара
 profileImage.addEventListener('click', () => {
     openModal(popupNewAvatar);
-    avatarUrl.value = '';
-    clearValidation(formNewAvatar, validationConfig); // Функция очистки валидации
+    formNewAvatar.reset();
+    clearValidation(formNewAvatar, validationConfig);
 })
 
 // Отправить форму обновления аватара
@@ -201,9 +205,6 @@ popupCloseButtons.forEach(item => {
     })
 });
 
-
-
-
 // Validity
 
 enableValidation(validationConfig);
@@ -219,3 +220,4 @@ Promise.all([getUser(), getInitialCards()])
 
         initialCards.forEach(card => placesList.append(createCard(cardTemplate, card, userId, cardEvents)));
     })
+    .catch(err => console.log(err))
